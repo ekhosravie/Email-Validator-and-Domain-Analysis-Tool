@@ -1,12 +1,19 @@
+/**
+ * Creates a custom menu in the Google Sheets UI.
+ */
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Email Analysis')
-      .addItem('Run Analysis', 'runAnalysis')
-      .addItem('Format Sheet', 'formatSheet')
-      .addItem('Add Pie Chart', 'addPieChart')
+      .addItem('Run Analysis', 'runAnalysis')  // Menu item to run the email analysis
+      .addItem('Format Sheet', 'formatSheet')  // Menu item to format the email addresses sheet
+      .addItem('Add Pie Chart', 'addPieChart')  // Menu item to add a pie chart to the email addresses sheet
       .addToUi();
 }
 
+/**
+ * Analyzes the email addresses in the active spreadsheet.
+ * Extracts the domain and performs keyword matching to determine if an email is valid.
+ */
 function runAnalysis() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var data = sheet.getDataRange().getValues();
@@ -37,6 +44,10 @@ function runAnalysis() {
   resultSheet.getRange(2, 1, validated_emails.length, 3).setValues(validated_emails);
 }
 
+/**
+ * Formats the email addresses sheet based on the analysis results.
+ * Cells with valid emails are colored green, and cells with invalid emails are colored red.
+ */
 function formatSheet() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('email addresses');
   var range = sheet.getRange('B2:B');
@@ -61,6 +72,9 @@ function formatSheet() {
   range.setBackgrounds(backgrounds);
 }
 
+/**
+ * Adds a pie chart to the email addresses sheet showing the percentage of valid and invalid email addresses.
+ */
 function addPieChart() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('email addresses');
   var range = sheet.getRange('D2:E'); // Assuming D2:E for pie chart data
